@@ -47,7 +47,7 @@ if (propertyBool('publish_to_curseforge')) {
             addGameVersion 'Forge'
             addGameVersion '1.12.2'
             releaseType = propertyString('release_type')
-            if (!propertyBool('publish_with_changelog')) {
+            if (propertyBool('publish_with_changelog')) {
                 changelog = parserChangelog()
                 changelogType = 'markdown'
             }
@@ -96,7 +96,7 @@ if (propertyBool('publish_to_modrinth')) {
                 }
             }
         }
-        if (!propertyBool('publish_with_changelog')) {
+        if (propertyBool('publish_with_changelog')) {
             changelog = parserChangelog()
         }
         if (propertyBool('modrinth_sync_readme')) {
