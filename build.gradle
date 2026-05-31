@@ -321,7 +321,6 @@ if (propertyBool('use_modern_java_syntax')) {
         dependsOn(shadeDowngradedApi)
     }
     // downgrade code for runClient/runServer
-    // modern run task, e.g. runClient17, are left as-is, to allow dev to test raw (before downgrading) logic
     for (runTask in ['runClient', 'runServer']) {
         tasks.named(runTask, RunMinecraftTask) {
             classpath = classpath - layout.files(jar) + layout.files(shadeDowngradedApi)
