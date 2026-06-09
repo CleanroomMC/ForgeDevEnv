@@ -232,6 +232,9 @@ idea {
     project {
         settings {
             runConfigurations {
+                "0. Setup Decomp Workspace"(Gradle) {
+                    taskNames = ["setupDecompWorkspace"]
+                }
                 "1. Run Client"(Gradle) {
                     taskNames = ["runClient"]
                 }
