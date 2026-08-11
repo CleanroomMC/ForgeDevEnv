@@ -11,11 +11,11 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.4.1'
-    id 'com.gtnewhorizons.retrofuturagradle' version '2.0.2'
-    id 'net.darkhax.curseforgegradle' version '1.2.+' apply false
+    id 'com.gtnewhorizons.retrofuturagradle' version '2.0.3'
+    id 'net.darkhax.curseforgegradle' version '1.+' apply false
     id 'com.modrinth.minotaur' version '2.+' apply false
     id 'org.jetbrains.changelog' version '2.5.0'
-    id 'com.gradleup.shadow' version '9.4.+'
+    id 'com.gradleup.shadow' version '9.6.+'
 }
 
 apply from: 'gradle/scripts/helpers.gradle'
