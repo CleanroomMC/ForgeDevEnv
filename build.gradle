@@ -69,6 +69,14 @@ java {
     }
 }
 
+configurations {
+    mixinAgent {
+        canBeConsumed = false
+        canBeResolved = true
+        visible = false
+    }
+}
+
 minecraft {
     mcVersion.set('1.12.2')
 
@@ -85,7 +93,6 @@ minecraft {
     // Add various JVM arguments here for runtime
     def args = ['-ea:' + group]
     if (propertyBool('use_mixins')) {
-        args << '-Dmixin.hotSwap=true'
         args << '-Dmixin.checks.interfaces=true'
         args << '-Dmixin.debug.export=true'
     }
@@ -100,7 +107,7 @@ minecraft {
                         def interpolated = interpolate(v)
                         if (interpolated == null || interpolated.isEmpty()) throw new GradleException("Empty tag value found for key: $k")
                         [(k): interpolated]
-                    })
+                })
             }
         }
     }
@@ -141,6 +148,9 @@ dependencies {
             transitive = false
         }
         annotationProcessor mixin
+        add ('mixinAgent', mixin) {
+            transitive = false
+        }
     }
     if (propertyBool('enable_junit_testing')) {
         testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
@@ -149,6 +159,18 @@ dependencies {
 }
 
 apply from: 'gradle/scripts/dependencies.gradle'
+
+if (propertyBool('use_mixins')) {
+    ['runClient', 'runServer', 'runObfClient', 'runObfServer'].each { taskName ->
+        tasks.named(taskName, JavaExec).configure { JavaExec task ->
+            task.doFirst {
+                if (task.debug) {
+                    task.jvmArgs("-javaagent:${configurations.mixinAgent.singleFile.absolutePath}")
+                }
+            }
+        }
+    }
+}
 
 // Adds Access Transformer files to tasks
 if (propertyBool('use_access_transformer')) {
